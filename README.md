@@ -4,10 +4,11 @@ A personal collection of language model implementations, NLP experiments, and in
 
 ---
 
-## List of Projects
+## Index
 
 1. miniLLM
 2. miniMamba
+3. AevRL
 
 
 ## Others
@@ -87,6 +88,39 @@ Built for legibility and experimentation. The model can be pretrained from scrat
 - `miniMamba/pretraining/train.py` - pretraining script with full CLI
 - `miniMamba/pretraining/pretrain.py` - minimal pretraining script
 - `miniMamba/finetuning/train_lora.py` - LoRA fine-tuning script
+
+---
+
+### (3) AevRL
+
+A lightweight RL stack for training language models with [GRPO](https://abderrahmanskiredj.github.io/the-illustrated-grpo) (Group Relative Policy Optimization). The main training loop is under 500 lines of code. Built to be hackable, modular, and straightforward to extend with new algorithms and environments.
+
+The trainer runs async rollouts against a chat model served by vLLM, collects rewards from a pluggable environment, and trains a local LoRA adapter using clipped policy gradients with a KL penalty against the frozen base model. The vLLM server and PyTorch trainer time-share a single GPU via sleep/wake cycling.
+
+See [AevRL/README.md](AevRL/README.md) for setup instructions, configuration reference, and the full training loop walkthrough.
+
+**Algorithm**
+- GRPO with group-normalized advantages (no value function needed)
+- Clipped importance-weighted policy loss (PPO-clip style) with per-token assistant masking
+- KL penalty against the frozen reference model using the unbiased `exp(r) - r - 1` estimator
+- Pluggable algorithm interface via `Algorithm` ABC (`compute_advantages`, `loss`)
+
+**Included environments**
+- SimpleMath (basic arithmetic with `<think>/<answer>` format rewards)
+- GSM8K (streamed from HuggingFace with thread-safe shuffled iteration and answer normalization)
+
+**Training setup**
+- LoRA adapter via PEFT (rank 16, alpha 32) targeting all attention and MLP projections
+- Gradient checkpointing and CPU offloading to share GPU memory with vLLM
+- W&B logging enabled by default
+- Pydantic-validated YAML config for all hyperparameters
+
+**Entry points:**
+- [`AevRL/src/rl/train.py`](AevRL/src/rl/train.py) - training entrypoint and main loop
+- [`AevRL/src/rl/rollout.py`](AevRL/src/rl/rollout.py) - async rollout collection
+- [`AevRL/src/algo/grpo.py`](AevRL/src/algo/grpo.py) - GRPO implementation
+- [`AevRL/configs/gsm8k.yaml`](AevRL/configs/gsm8k.yaml) - GSM8K config
+- [`AevRL/configs/simple_math.yaml`](AevRL/configs/simple_math.yaml) - SimpleMath config
 
 <br/>
 

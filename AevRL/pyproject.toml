@@ -1,0 +1,37 @@
+[project]
+name = "aevrl"
+version = "0.1.0"
+description = "AevRL: An RL library for training language models"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "openai>=2.26.0",
+    "peft>=0.18.1",
+    "pydantic>=2.12.5",
+    "pyyaml>=6.0.3",
+    "requests>=2.32.5",
+    "torch>=2.8,<2.9",
+    "transformers>=5.3.0",
+    "wandb>=0.25.1",
+]
+
+[project.optional-dependencies]
+flash_attn = [
+    "flash-attn>=2.8.3; platform_system == 'Linux'",
+    "ninja>=1.11",
+    "packaging>=24.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.6",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "environments"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
