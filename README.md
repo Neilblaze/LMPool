@@ -9,6 +9,12 @@ A personal collection of language model implementations, NLP experiments, and in
 1. miniLLM
 2. miniMamba
 
+
+## Others
+
+- Fine-Tuning LLMs (Guide)
+- Self-Optimizer Inference
+
 ---
 
 ### (1) miniLLM
@@ -82,6 +88,53 @@ Built for legibility and experimentation. The model can be pretrained from scrat
 - `miniMamba/pretraining/pretrain.py` - minimal pretraining script
 - `miniMamba/finetuning/train_lora.py` - LoRA fine-tuning script
 
+<br/>
+
+![breaker](https://user-images.githubusercontent.com/48355572/209539106-8e1cbfc6-2f3d-4afd-b96a-890d967dd9ab.png)
+
+
+
+## Others
+
+### 🔵 Fine-Tuning LLMs (Guide)
+
+A practical guide to supervised fine-tuning of pre-trained language models using the Hugging Face `transformers` library.
+
+Covers the four core fine-tuning methods (SFT, CPT, DPO, RLHF), walks through a complete end-to-end training pipeline on the GSM8K math dataset using Qwen 3 (0.6B), and documents best practices around data preparation, training strategy, and common failure modes.
+
+See [Others/Fine-Tuning/README.md](Others/Fine-Tuning/README.md) for the full guide.
+
+**Topics covered:**
+- Supervised Fine-Tuning (SFT)
+- Continued Pre-Training (CPT)
+- Direct Preference Optimization (DPO)
+- Reinforcement Learning from Human Feedback (RLHF)
+- Dataset loading and tokenization with loss masking
+- Training configuration and hyperparameter guidance
+- Evaluation using loss and perplexity
+- Parameter-efficient fine-tuning with LoRA and NEFTune
+
+**Entry point:**
+- [`Others/Fine-Tuning/README.md`](Others/Fine-Tuning/README.md) - step-by-step tutorial with full training script
+
+---
+
+### 🔵 Self-Optimizer Inference
+
+An autonomous agent loop for optimising LLM inference throughput on Apple Silicon using [MLX](https://github.com/ml-explore/mlx). Inspired by [karpathy/autoresearch](https://github.com/karpathy/autoresearch).
+
+The setup is simple. `inference.py` is the only file the agent can modify. `prepare.py` is a locked evaluation harness that benchmarks every change and enforces quality gates (perplexity and task-level sanity checks). The agent hill-climbs on generation tokens/sec, commits each experiment, and reverts anything that fails.
+
+Tested with Claude Opus 4.6 on a MacBook Pro M4 (24GB RAM) against two models. Argmax sampling was the biggest consistent gain (+10.9% on Qwen2.5-0.5B-Instruct-4bit, +3.1% on Gemma-3-270m-it-4bit). KV cache quantisation consistently hurt, and the sanity check gate caught quality regressions that perplexity alone missed.
+
+See [Others/SelfOptimizer-Inference/README.md](Others/SelfOptimizer-Inference/README.md) for full benchmark results and the agent protocol.
+
+**Entry points:**
+- [`Others/SelfOptimizer-Inference/inference.py`](Others/SelfOptimizer-Inference/inference.py) - MLX generation pipeline (agent-editable)
+- [`Others/SelfOptimizer-Inference/prepare.py`](Others/SelfOptimizer-Inference/prepare.py) - evaluation harness (read-only)
+
+
+<br/>
 
 # License
 MIT
