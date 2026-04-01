@@ -13,6 +13,8 @@ You point an AI coding agent at this repo and let it run. The agent hill-climbs 
 | `prepare.py` | Evaluation harness. Loads model, runs benchmarks, enforces quality gates | No |
 | `results.tsv` | Experiment log maintained by the agent (gitignored) | Yes |
 
+<br/>
+
 ## Benchmark Results
 
 All experiments below were run with Claude Opus 4.6 (via Claude Code) on a **MacBook Pro M4, 24GB RAM**. Each evaluation pass runs 5 benchmark prompts across 3 averaged runs, with 2 warmup passes (one short prompt for basic Metal kernel compilation, one actual benchmark prompt to prime kernels for real sequence lengths).
@@ -51,6 +53,8 @@ All experiments below were run with Claude Opus 4.6 (via Claude Code) on a **Mac
 
 </details>
 
+<br/>
+
 ### 🟠 Gemma-3-270m-it-4bit
 
 **Model** [`mlx-community/Gemma-3-270m-it-4bit`](https://huggingface.co/mlx-community/Gemma-3-270m-it-4bit) (270M params, 4-bit quantised)
@@ -81,6 +85,8 @@ All experiments below were run with Claude Opus 4.6 (via Claude Code) on a **Mac
 
 </details>
 
+<br/>
+
 ### Takeaways
 
 1. **Argmax sampling is the single biggest win.** +10.9% on Qwen2.5-0.5B-Instruct-4bit, +3.1% on Gemma-3-270m-it-4bit. Nucleus sampling (top-p) has real per-token overhead. The trade-off is deterministic output with no diversity.
@@ -94,6 +100,13 @@ All experiments below were run with Claude Opus 4.6 (via Claude Code) on a **Mac
 5. **Simplicity wins.** Removing 42 lines of unused config maintained the same speed on both models. Less code, less to review.
 
 6. **MAX_TOKENS reduction is artificial.** The diff monitor correctly flagged this. Speed appeared to improve only because the model generated fewer tokens, not because it generated them faster.
+
+
+<br/>
+
+![NOTE](https://user-images.githubusercontent.com/48355572/209539106-8e1cbfc6-2f3d-4afd-b96a-890d967dd9ab.png)
+
+<br/>
 
 ## Agent Protocol
 
@@ -122,6 +135,8 @@ After each evaluation, `prepare.py` emits a diff report showing parameter change
   - Argmax decoding: no sampling overhead but deterministic output.
 ```
 
+---
+
 ### Rules
 
 1. **Only modify `inference.py`.** Never touch `prepare.py`.
@@ -146,11 +161,13 @@ The agent can modify anything in `inference.py`:
 
 These are starting points. The agent generates its own ideas as well.
 
-**Quick wins** - set `TEMP = 0.0` for argmax sampling, tune `PREFILL_STEP_SIZE` (512, 1024, 4096), set `MAX_KV_SIZE` to a fixed value, reduce `MAX_TOKENS` if quality holds
+╰┈➤ **Quick wins** - set `TEMP = 0.0` for argmax sampling, tune `PREFILL_STEP_SIZE` (512, 1024, 4096), set `MAX_KV_SIZE` to a fixed value, reduce `MAX_TOKENS` if quality holds
 
-**Medium effort** - enable KV cache quantisation (`KV_BITS = 4` or `8`), tune `METAL_CACHE_LIMIT`, batch-friendly prompt formatting, pre-compile sampling functions with `mx.compile`
+╰┈➤ **Medium effort** - enable KV cache quantisation (`KV_BITS = 4` or `8`), tune `METAL_CACHE_LIMIT`, batch-friendly prompt formatting, pre-compile sampling functions with `mx.compile`
 
-**Advanced** - custom generate loop bypassing `stream_generate`, speculative decoding with a draft model, prompt caching for shared prefixes, custom attention via `mx.fast.scaled_dot_product_attention`
+╰┈➤ **Advanced** - custom generate loop bypassing `stream_generate`, speculative decoding with a draft model, prompt caching for shared prefixes, custom attention via `mx.fast.scaled_dot_product_attention`
+
+<br/>
 
 ## Evaluation Protocol
 
@@ -190,7 +207,9 @@ An experiment is automatically reverted if **either** gate fails.
 - **Perplexity gate** (`avg_perplexity < 50.0`) catches catastrophic quality collapse. 4-bit KV quantization on Qwen2.5-0.5B-Instruct-4bit spiked perplexity to ~598.
 - **Sanity check gate** (`sanity_check >= 0.6`) validates that outputs are actually correct. The math answer must contain "48", the transformer explanation must mention attention-related concepts, the code must contain a `def` statement with relevant identifiers.
 
-## Setup
+<br/>
+
+## Setup 🧩
 
 > [!NOTE]
 > Requires macOS with Apple Silicon (M1 or later) and Python 3.10+. The Gemma 3 270M model needs roughly 2GB of free RAM.
