@@ -9,6 +9,7 @@ A personal collection of language model implementations, NLP experiments, and in
 1. miniLLM
 2. miniMamba
 3. AevRL
+4. microAR
 
 
 ## Others
@@ -121,6 +122,25 @@ See [AevRL/README.md](AevRL/README.md) for setup instructions, configuration ref
 - [`AevRL/src/algo/grpo.py`](AevRL/src/algo/grpo.py) - GRPO implementation
 - [`AevRL/configs/gsm8k.yaml`](AevRL/configs/gsm8k.yaml) - GSM8K config
 - [`AevRL/configs/simple_math.yaml`](AevRL/configs/simple_math.yaml) - SimpleMath config
+
+---
+
+### (4) microAR
+
+Minimal, dependency-free implementations of [Attention Residuals](https://arxiv.org/abs/2603.15031) (MoonshotAI) applied to [karpathy's microgpt](https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95). Both variants from the paper are implemented in the same pure-Python, scalar-autograd style as the original.
+
+In a standard transformer, the residual stream is a running sum. Attention Residuals replace this with a learned selective mix: before each sublayer, a zero-initialized projection vector scores all previous outputs via softmax, and the sublayer receives a weighted combination instead of the undifferentiated cumulative sum.
+
+Follow [microAR/README.md](microAR/README.md) for the full walkthrough, reference pseudocode from the paper, and execution traces.
+
+**Variants**
+- Full AttnRes (FAR) tracks every individual sublayer output as a candidate. O(2*L) candidates.
+- Block AttnRes (BAR) groups layers into blocks with a partial accumulator, committing block summaries at boundaries. O(blocks) candidates.
+
+**Entry points:**
+- [`microAR/micGPT_FAR.py`](microAR/micGPT_FAR.py) - Full Attention Residuals
+- [`microAR/micGPT_BAR.py`](microAR/micGPT_BAR.py) - Block Attention Residuals
+- [`microAR/microgpt.py`](microAR/microgpt.py) - Baseline (standard additive residual, no AttnRes)
 
 <br/>
 
