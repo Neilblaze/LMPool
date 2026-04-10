@@ -16,6 +16,9 @@ A personal collection of language model implementations, NLP experiments, and in
 
 - Fine-Tuning LLMs (Guide)
 - Self-Optimizer Inference
+- Speculative Decoding
+- Quantization
+  - TurboQuant
 
 ---
 
@@ -186,6 +189,34 @@ See [Others/SelfOptimizer-Inference/README.md](Others/SelfOptimizer-Inference/RE
 **Entry points:**
 - [`Others/SelfOptimizer-Inference/inference.py`](Others/SelfOptimizer-Inference/inference.py) - MLX generation pipeline (agent-editable)
 - [`Others/SelfOptimizer-Inference/prepare.py`](Others/SelfOptimizer-Inference/prepare.py) - evaluation harness (read-only)
+
+---
+
+### 🔵 Speculative Decoding
+
+An implementation of [Speculative Decoding](https://arxiv.org/abs/2302.01318) (Leviathan et al., 2023) with rejection sampling that provably preserves the target model's output distribution.
+
+A small draft model ([Qwen3-0.6B](https://huggingface.co/Qwen/Qwen3-0.6B)) proposes gamma tokens per step, the target model ([Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B)) verifies them in a single forward pass, and a rejection sampling scheme guarantees the output matches sampling from the target alone. Includes greedy and KV-cached baselines for throughput comparison.
+
+See [Others/Speculative-Decoding/README.md](Others/Speculative-Decoding/README.md) for the algorithm walkthrough, sampling modes, and benchmark harness.
+
+**Entry point:**
+- [`Others/Speculative-Decoding/speculativeDecoding.py`](Others/Speculative-Decoding/speculativeDecoding.py) - draft/verify loop, rejection sampling, and benchmark
+
+---
+
+### 🔵 Quantization
+
+#### 🟢 TurboQuant
+
+An unofficial, end-to-end PyTorch implementation of [TurboQuant](https://arxiv.org/abs/2504.19874) (Online Vector Quantization with Near-optimal Distortion Rate) for KV cache compression during Hugging Face generation.
+
+Compresses KV cache entries online using a two-stage quantizer: Lloyd-Max scalar quantization after random rotation (Qmse), plus a 1-bit QJL residual sketch for unbiased inner-product estimation (Qprod). Targets [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct) (dense, non-MoE). Will try to add MoE support in future editions.
+
+See [Others/Quantization/TurboQuant/README.md](Others/Quantization/TurboQuant/README.md) for the full architecture walkthrough and usage guide.
+
+**Entry point:**
+- [`Others/Quantization/TurboQuant/turboquant.py`](Others/Quantization/TurboQuant/turboquant.py) - quantizers, cache layers, Qwen2 attention patch, and evaluation harness
 
 
 <br/>
