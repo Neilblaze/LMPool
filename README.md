@@ -18,7 +18,18 @@ A personal collection of language model implementations, NLP experiments, and in
 - Self-Optimizer Inference
 - Speculative Decoding
 - Quantization
-  - TurboQuant
+  - AWQ
+  - GPTQ
+  - LLM.int8()
+  - SmoothQuant
+  - SpQR
+  - FP8
+  - NF4
+  - QLoRA
+  - PTQ
+  - QAT
+  - Others
+    - TurboQuant
 
 ---
 
@@ -206,6 +217,37 @@ See [Others/Speculative-Decoding/README.md](Others/Speculative-Decoding/README.m
 ---
 
 ### 🔵 Quantization
+
+A collection of minimal, readable implementations and reference pipelines for modern neural network quantization techniques. The focus is on establishing robust baselines for post-training compression, mixed-precision inference, and parameter-efficient fine-tuning.
+
+> [!NOTE]
+> Most of the baseline implementations require external dependencies (`transformers`, `bitsandbytes`, `autoawq`, `auto-gptq`). Ensure your environment is configured correctly before executing the API-driven examples. 
+
+See [Others/Quantization/README.md](Others/Quantization/README.md) for the full breakdown of techniques, comparisons, and additional references.
+
+**Topics covered:**
+- **PTQ** & **QAT**: Baselines for dynamic post-training quantization and quantization-aware training.
+- **GPTQ** & **AWQ**: Industry-standard 4-bit weight quantization methods targeting salient parameters.
+- **SmoothQuant** & **LLM.int8()**: Mixed-precision and mathematical migration techniques for stable W8A8 compute.
+- **NF4** & **FP8**: Information-theoretically optimal and hardware-native low-bit data types.
+- **SpQR** & **QLoRA**: Sparse outlier isolation and parameter-efficient adapter tuning over frozen 4-bit models.
+
+> [!TIP]
+> For an extended breakdown of quantization concepts, visit the official [Hugging Face Quantization Guide](https://huggingface.co/docs/transformers/quantization/overview). For a comprehensive list of modern quantization papers, refer to the [Awesome-LLM-Quantization](https://github.com/pprp/Awesome-LLM-Quantization) repository.
+
+**Entry points:**
+- [`Others/Quantization/PTQ/ptq.py`](Others/Quantization/PTQ/ptq.py)
+- [`Others/Quantization/QAT/qat.py`](Others/Quantization/QAT/qat.py)
+- [`Others/Quantization/GPTQ/gptq.py`](Others/Quantization/GPTQ/gptq.py)
+- [`Others/Quantization/AWQ/awq.py`](Others/Quantization/AWQ/awq.py)
+- [`Others/Quantization/SmoothQuant/smoothquant.py`](Others/Quantization/SmoothQuant/smoothquant.py)
+- [`Others/Quantization/LLM_int8/llm_int8.py`](Others/Quantization/LLM_int8/llm_int8.py)
+- [`Others/Quantization/NF4/nf4.py`](Others/Quantization/NF4/nf4.py)
+- [`Others/Quantization/FP8/fp8.py`](Others/Quantization/FP8/fp8.py)
+- [`Others/Quantization/SpQR/spqr.py`](Others/Quantization/SpQR/spqr.py)
+- [`Others/Quantization/QLoRA/qlora.py`](Others/Quantization/QLoRA/qlora.py)
+
+---
 
 #### 🟢 TurboQuant
 
