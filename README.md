@@ -6,10 +6,11 @@ A personal collection of language model implementations, NLP experiments, and in
 
 ## Index
 
-1. miniLLM
-2. miniMamba
-3. AevRL
-4. microAR
+1. Training a GPT
+2. miniLLM
+3. miniMamba
+4. AevRL
+5. microAR
 
 
 ## Others
@@ -33,7 +34,45 @@ A personal collection of language model implementations, NLP experiments, and in
 
 ---
 
-### (1) miniLLM
+### (1) Training a GPT
+
+A comprehensive, from-scratch guide to building and training a modern decoder-only Transformer language model. Every component is explained with analogies, math, and heavily-annotated code. No ML experience required — just basic Python.
+
+Implements the same architecture as LLaMA 3, Mistral, and Qwen 2.5: RoPE positional encoding, RMSNorm, SwiGLU activation, pre-norm residuals, and weight tying. The guide walks through tokenization (BPE), embeddings, attention, transformer blocks, training, and inference with complete working code.
+
+See [GPT/README.md](GPT/README.md) for the full chapter index and architecture overview.
+
+**What you'll build:**
+- BPE tokenizer (same algorithm as GPT-4)
+- Multi-head attention with RoPE
+- Complete 124M parameter GPT model
+- Training pipeline with AdamW, cosine warmup, mixed precision
+- Inference engine with temperature, top-k/p sampling, KV cache
+
+**Architecture highlights:**
+- RoPE (Rotary Position Embeddings) — relative positions without learned parameters
+- RMSNorm — 15% faster than LayerNorm, equally effective
+- SwiGLU — gated activation for selective information flow
+- Pre-Norm — stable training at any depth
+- Weight tying — shares embedding and output projection weights
+- Causal masking — autoregressive next-token prediction
+
+**Training setup:**
+- WikiText-103 dataset
+- AdamW optimizer with decoupled weight decay
+- Cosine LR schedule with linear warmup
+- Gradient clipping and accumulation
+- Mixed precision (bfloat16)
+- Automatic checkpointing
+
+**Entry points:**
+- [GPT/chapters/](GPT/chapters/) — 12 sequential chapters from basics to full implementation
+- [GPT/main.py](GPT/main.py) — complete runnable training script
+- [GPT/notebooks/](GPT/notebooks/) — Jupyter notebooks for interactive learning
+
+---
+
+### (2) miniLLM
 
 A minimal, readable decoder-only language model baseline incorporating practices from standard LLMs.
 
@@ -66,7 +105,7 @@ See [miniLLM/README.md](miniLLM/README.md) for full details.
 
 ---
 
-### (2) miniMamba
+### (3) miniMamba
 
 A from-scratch implementation of the Mamba selective state space model, including the full parallel scan algorithm with a custom autograd function and support for autoregressive inference.
 
@@ -106,7 +145,7 @@ Built for legibility and experimentation. The model can be pretrained from scrat
 
 ---
 
-### (3) AevRL
+### (4) AevRL
 
 A lightweight RL stack for training language models with [GRPO](https://abderrahmanskiredj.github.io/the-illustrated-grpo) (Group Relative Policy Optimization). The main training loop is under 500 lines of code. Built to be hackable, modular, and straightforward to extend with new algorithms and environments.
 
@@ -139,7 +178,7 @@ See [AevRL/README.md](AevRL/README.md) for setup instructions, configuration ref
 
 ---
 
-### (4) microAR
+### (5) microAR
 
 Minimal, dependency-free implementations of [Attention Residuals](https://arxiv.org/abs/2603.15031) (MoonshotAI) applied to [karpathy's microgpt](https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95). Both variants from the paper are implemented in the same pure-Python, scalar-autograd style as the original.
 
