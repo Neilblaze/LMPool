@@ -1,16 +1,24 @@
-# LMPool
+<div align="center">
 
-A personal collection of language model implementations, NLP experiments, and inference workflows.
+<img src="https://res.cloudinary.com/dmlwye965/image/upload/v1778422700/animation_xvnjf1.gif" width="30%" alt="LMPool">
 
----
+<h1>LMPool</h1>
+
+**A personal collection of language model implementations, NLP experiments, and inference workflows ✨**
+
+</div>
+
+![breaker](https://user-images.githubusercontent.com/48355572/209539106-8e1cbfc6-2f3d-4afd-b96a-890d967dd9ab.png)
+
 
 ## Index
 
-1. Training a GPT
-2. miniLLM
-3. miniMamba
-4. AevRL
-5. microAR
+1. Building a Transformer
+2. Training a GPT
+3. miniLLM
+4. miniMamba
+5. AevRL
+6. microAR
 
 
 ## Others
@@ -34,7 +42,32 @@ A personal collection of language model implementations, NLP experiments, and in
 
 ---
 
-### (1) Training a GPT
+### (1) Building a Transformer
+
+A step-by-step guide to building a modern decoder-only transformer language model from scratch. It breaks down the fundamental components and architecture choices of modern large language models, explaining the shapes, tensor flows, and mathematics behind each part.
+
+See the [Transformers/](Transformers/) directory for the full collection of 18 lessons ranging from basic architecture overview to advanced topics like KV caching.
+
+**What you'll build:**
+- Training batches and next-token prediction
+- Token embeddings and the language model head
+- Next-token cross-entropy loss
+- Autoregressive token generation
+- Core transformer components (RMSNorm, RoPE, SwiGLU)
+- Multi-head causal self-attention
+- A complete tiny GPT model and training loop
+- Checkpointing and validation pipelines
+
+**Architecture highlights:**
+- Modern decoder-only design
+- Rotary Position Embeddings (RoPE)
+- RMSNorm for lightweight normalization
+- SwiGLU feed-forward network
+- KV caching for efficient autoregressive generation
+
+---
+
+### (2) Training a GPT
 
 A comprehensive, from-scratch guide to building and training a modern decoder-only Transformer language model. Every component is explained with analogies, math, and heavily-annotated code. No ML experience required — just basic Python.
 
@@ -72,7 +105,7 @@ See [GPT/README.md](GPT/README.md) for the full chapter index and architecture o
 
 ---
 
-### (2) miniLLM
+### (3) miniLLM
 
 A minimal, readable decoder-only language model baseline incorporating practices from standard LLMs.
 
@@ -105,7 +138,7 @@ See [miniLLM/README.md](miniLLM/README.md) for full details.
 
 ---
 
-### (3) miniMamba
+### (4) miniMamba
 
 A from-scratch implementation of the Mamba selective state space model, including the full parallel scan algorithm with a custom autograd function and support for autoregressive inference.
 
@@ -145,7 +178,7 @@ Built for legibility and experimentation. The model can be pretrained from scrat
 
 ---
 
-### (4) AevRL
+### (5) AevRL
 
 A lightweight RL stack for training language models with [GRPO](https://abderrahmanskiredj.github.io/the-illustrated-grpo) (Group Relative Policy Optimization). The main training loop is under 500 lines of code. Built to be hackable, modular, and straightforward to extend with new algorithms and environments.
 
@@ -178,7 +211,7 @@ See [AevRL/README.md](AevRL/README.md) for setup instructions, configuration ref
 
 ---
 
-### (5) microAR
+### (6) microAR
 
 Minimal, dependency-free implementations of [Attention Residuals](https://arxiv.org/abs/2603.15031) (MoonshotAI) applied to [karpathy's microgpt](https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95). Both variants from the paper are implemented in the same pure-Python, scalar-autograd style as the original.
 
