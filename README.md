@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://res.cloudinary.com/dmlwye965/image/upload/v1778422700/animation_xvnjf1.gif" width="30%" alt="LMPool">
+<img src="./assets/animation.gif" width="30%" alt="LMPool">
 
 <h1>LMPool</h1>
 
