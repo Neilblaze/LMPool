@@ -16,9 +16,9 @@ flowchart TD
 
     A["📄 Raw Text"]
 
-    A --> B["**Text Normalization**<br/>Unicode · whitespace · lowercasing"]
+    A --> B["<b>Text Normalization</b><br/>Unicode · whitespace · lowercasing"]
 
-    B --> C["**Tokenizer**<br/>BPE / WordPiece / Unigram"]
+    B --> C["<b>Tokenizer</b><br/>BPE / WordPiece / Unigram"]
 
     C --> D["Token IDs"]
 
@@ -46,13 +46,13 @@ flowchart TD
         subgraph ATTN ["Multi-Head Attention"]
             direction TB
 
-            LN1["**Pre-LayerNorm**<br/>RMSNorm / LayerNorm"]
+            LN1["<b>Pre-LayerNorm</b><br/>RMSNorm / LayerNorm"]
 
             LN1 --> QKV["Linear Projections → Q, K, V"]
 
-            QKV -.-> KVC[("**KV Cache**<br/>Retrieve past K, V<br/>Append new K, V")]
+            QKV -.-> KVC[("<b>KV Cache</b><br/>Retrieve past K, V<br/>Append new K, V")]
 
-            KVC ==> AS["**Attention Scores**<br/>Q · Kᵀ / √d_k"]
+            KVC ==> AS["<b>Attention Scores</b><br/>Q · Kᵀ / √d_k"]
 
             AS --> CM["Causal Mask Applied"]
 
@@ -84,7 +84,7 @@ flowchart TD
 
             LN2 --> UP["Linear (up-projection)"]
 
-            UP ==> ACT["**Activation**<br/>GELU / SwiGLU / ReLU"]
+            UP ==> ACT["<b>Activation</b><br/>GELU / SwiGLU / ReLU"]
 
             ACT --> DN["Linear (down-projection)"]
 
@@ -102,11 +102,11 @@ flowchart TD
     %% OUTPUT HEAD
     %% ============================================================
 
-    UH ==> FH["**Final Hidden State**<br/>last token position only"]
+    UH ==> FH["<b>Final Hidden State</b><br/>last token position only"]
 
     FH --> FLN["Final LayerNorm"]
 
-    FLN ==> LMH["**LM Head**<br/>Linear Projection to Vocabulary Logits"]
+    FLN ==> LMH["<b>LM Head</b><br/>Linear Projection to Vocabulary Logits"]
 
     %% ============================================================
     %% LOGIT PROCESSING
@@ -114,7 +114,7 @@ flowchart TD
 
     LMH --> TS["Temperature Scaling<br/>logits ÷ T<br/>T < 1 sharpens · T > 1 flattens"]
 
-    TS ==> LP["**Logit Processors**<br/>Repetition penalty · Frequency penalty · Min-p · etc."]
+    TS ==> LP["<b>Logit Processors</b><br/>Repetition penalty · Frequency penalty · Min-p · etc."]
 
     LP --> SF2["Softmax → Probability Distribution<br/>over Vocabulary"]
 
