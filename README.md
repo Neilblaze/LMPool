@@ -16,9 +16,10 @@
 1. Building a Transformer
 2. Training a GPT
 3. miniLLM
-4. miniMamba
-5. AevRL
-6. microAR
+4. miniDeepseek
+5. miniMamba
+6. AevRL
+7. microAR
 
 
 ## Others
@@ -138,7 +139,58 @@ See [miniLLM/README.md](miniLLM/README.md) for full details.
 
 ---
 
-### (4) miniMamba
+### (4) miniDeepseek
+
+An educational implementation of DeepSeek V3 (lite/mini) covering the complete **Pretrain → SFT → RL** training pipeline. Built for clarity and experimentation, implementing the core architectural innovations from DeepSeek V3: Multi-head Latent Attention (MLA), Mixture of Experts (MoE), and Multi-Token Prediction (MTP).
+
+The project demonstrates a full three-stage training workflow from language model pretraining through supervised fine-tuning to reinforcement learning alignment, with support for multiple RL algorithms (GRPO, PPO, DPO).
+
+See [miniDeepseek/README.md](miniDeepseek/README.md) for the complete architecture breakdown, training pipeline details, and RL algorithm comparisons.
+
+**Architecture highlights:**
+- **Multi-head Latent Attention (MLA)** — Low-rank KV compression reducing inference memory from O(H × d_h) to O(d_c)
+- **DeepSeekMoE** — Hybrid architecture with shared experts (always active) + routed experts (Top-K selection)
+- **Multi-Token Prediction (MTP)** — Auxiliary training objective predicting multiple future tokens simultaneously
+- **Decoupled RoPE** — Separate position-aware and position-free attention components
+- **Load balancing loss** — Auxiliary loss preventing expert usage imbalance
+
+**Training pipeline:**
+
+| Stage | Dataset | Objective | Algorithm |
+|-------|---------|-----------|-----------|
+| **Pretrain** | WikiText-2 / OpenWebText | Learn language fundamentals | Next-token prediction + MTP |
+| **SFT** | Alpaca (52K samples) | Learn instruction following | Supervised fine-tuning |
+| **RL** | HH-RLHF (170K pairs) | Align with human preferences | GRPO / PPO / DPO |
+
+**RL algorithms:**
+- **GRPO (Group Relative Policy Optimization)** — DeepSeek's approach using group-normalized advantages without a value function
+- **PPO (Proximal Policy Optimization)** — Classic RLHF with GAE advantage estimation and clipped surrogate objective
+- **DPO (Direct Preference Optimization)** — Offline preference learning without an explicit reward model
+
+**Training setup:**
+- GPT-2 tokenizer (configurable to any HuggingFace tokenizer)
+- AdamW optimizer with cosine warmup schedule
+- Gradient clipping and accumulation
+- Mixed precision training support
+- TensorBoard visualization with attention heatmaps, expert usage, and generation samples
+- Comprehensive test suite covering all components
+
+**Additional features:**
+- **Web chat interface** — Flask-based UI with streaming generation, dynamic model switching, and ChatGPT-style dark theme
+- **Colored logging** — Multi-level logging with emoji symbols and structured output
+- **Modular design** — Clean separation of model, data, training, and inference components
+- **Flexible configuration** — YAML-based config with CLI overrides for all hyperparameters
+
+**Entry points:**
+- `miniDeepseek/train.py` - main training script (pretrain/SFT)
+- `miniDeepseek/rl_train.py` - RL training with algorithm selection
+- `miniDeepseek/chat/app.py` - web chat interface
+- `miniDeepseek/scripts/run.sh` - convenience script for all workflows
+- `miniDeepseek/tests/test_all.py` - comprehensive test suite
+
+---
+
+### (5) miniMamba
 
 A from-scratch implementation of the Mamba selective state space model, including the full parallel scan algorithm with a custom autograd function and support for autoregressive inference.
 
@@ -178,7 +230,7 @@ Built for legibility and experimentation. The model can be pretrained from scrat
 
 ---
 
-### (5) AevRL
+### (6) AevRL
 
 A lightweight RL stack for training language models with [GRPO](https://abderrahmanskiredj.github.io/the-illustrated-grpo) (Group Relative Policy Optimization). The main training loop is under 500 lines of code. Built to be hackable, modular, and straightforward to extend with new algorithms and environments.
 
@@ -211,7 +263,7 @@ See [AevRL/README.md](AevRL/README.md) for setup instructions, configuration ref
 
 ---
 
-### (6) microAR
+### (7) microAR
 
 Minimal, dependency-free implementations of [Attention Residuals](https://arxiv.org/abs/2603.15031) (MoonshotAI) applied to [karpathy's microgpt](https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95). Both variants from the paper are implemented in the same pure-Python, scalar-autograd style as the original.
 
