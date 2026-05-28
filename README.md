@@ -13,33 +13,33 @@
 
 ## Index
 
-1. Building a Transformer
-2. Training a GPT
-3. miniLLM
-4. miniDeepseek
-5. miniMamba
-6. AevRL
-7. microAR
+1. [Building a Transformer](./#1-building-a-transformer)
+2. [Training a GPT](./#2-training-a-gpt)
+3. [miniLLM](./#3-minillm)
+4. [miniDeepseek](./#4-minideepseek)
+5. [miniMamba](./#5-minimamba)
+6. [AevRL](./#6-aevrl)
+7. [microAR](./#7-microar)
 
 
 ## Others
 
-- Fine-Tuning LLMs (Guide)
-- Self-Optimizer Inference
-- Speculative Decoding
-- Quantization
-  - AWQ
-  - GPTQ
-  - LLM.int8()
-  - SmoothQuant
-  - SpQR
-  - FP8
-  - NF4
-  - QLoRA
-  - PTQ
-  - QAT
+- [Fine-Tuning LLMs (Guide)](./#-fine-tuning-llms-guide)
+- [Self-Optimizer Inference](./#-self-optimizer-inference)
+- [Speculative Decoding](./#-speculative-decoding)
+- [Quantization](./#-quantization)
+  - [AWQ](./Others/Quantization/AWQ/)
+  - [GPTQ](./Others/Quantization/GPTQ/)
+  - [LLM.int8()](./Others/Quantization/LLM_int8/)
+  - [SmoothQuant](./Others/Quantization/SmoothQuant/)
+  - [SpQR](./Others/Quantization/SpQR/)
+  - [FP8](./Others/Quantization/FP8/)
+  - [NF4](./Others/Quantization/NF4/)
+  - [QLoRA](./Others/Quantization/QLoRA/)
+  - [PTQ](./Others/Quantization/PTQ/)
+  - [QAT](./Others/Quantization/QAT/)
   - Others
-    - TurboQuant
+    - [TurboQuant](./#-turboquant)
 
 ---
 
